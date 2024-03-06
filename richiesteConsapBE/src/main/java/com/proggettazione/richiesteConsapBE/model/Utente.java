@@ -10,15 +10,8 @@ import java.util.Date;
 public class Utente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @ManyToOne
-    @JoinColumn(name="id_Richiesta",referencedColumnName = "id")
-    private Richiesta idRichiesta;
+    private int idUtente;
     private String username;
     private String password;
-    private int idUtenteCreazione;
-    private Date dataInserimento;
-    private Date dataModifica;
-    private int idUtenteModifica;
 }
 

@@ -1,10 +1,9 @@
 package com.proggettazione.richiesteConsapBE.service.impl;
 
 import com.proggettazione.richiesteConsapBE.model.Richiesta;
-import com.proggettazione.richiesteConsapBE.model.Stato;
+import com.proggettazione.richiesteConsapBE.model.StatoRichiestaCONSAP;
 import com.proggettazione.richiesteConsapBE.repository.RichiestaRepository;
 import com.proggettazione.richiesteConsapBE.repository.StatoRepository;
-import com.proggettazione.richiesteConsapBE.service.RichiestaService;
 import com.proggettazione.richiesteConsapBE.service.StatoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class StatoServiceImpl implements StatoService {
+public class StatoServiceImpl{
 
 
 
@@ -21,14 +20,15 @@ public class StatoServiceImpl implements StatoService {
 
     @Autowired
     StatoRepository statoRepository;
+    /*
     @Override
-    public List<Stato> getStati() {
+    public List<StatoRichiestaCONSAP> getStati() {
         return statoRepository.findAll();
     }
 
     @Override
-    public Stato saveStato(Stato stato) {
-        return statoRepository.save(stato);
+    public StatoRichiestaCONSAP saveStato(StatoRichiestaCONSAP statoRichiestaCONSAP) {
+        return statoRepository.save(statoRichiestaCONSAP);
     }
 /*
     @Override
@@ -46,10 +46,11 @@ public class StatoServiceImpl implements StatoService {
         }
     }
     */
+    /*
 @Override
-public Stato getIdStatoByRichiesta(Richiesta richiesta) {
+public StatoRichiestaCONSAP getIdStatoByRichiesta(Richiesta richiesta) {
     int statoId = richiesta.getStato().getId(); // Recupera l'ID dello stato dal JSON
-    Optional<Stato> optionalStato = statoRepository.findById(statoId); // Cerca lo stato nel database utilizzando l'ID
+    Optional<StatoRichiestaCONSAP> optionalStato = statoRepository.findById(statoId); // Cerca lo stato nel database utilizzando l'ID
 
     if (optionalStato.isPresent()) {
         return optionalStato.get(); // Restituisci lo stato trovato
@@ -58,7 +59,7 @@ public Stato getIdStatoByRichiesta(Richiesta richiesta) {
         return null; // o altra logica di gestione dell'errore
     }
 }
-
+*/
 
 
 }

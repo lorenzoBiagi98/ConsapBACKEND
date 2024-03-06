@@ -1,6 +1,5 @@
 package com.proggettazione.richiesteConsapBE.service.impl;
 
-import com.proggettazione.richiesteConsapBE.model.StatoApprovazione;
 import com.proggettazione.richiesteConsapBE.model.Utente;
 import com.proggettazione.richiesteConsapBE.repository.UtenteRepository;
 import com.proggettazione.richiesteConsapBE.service.UtenteService;
@@ -10,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UtenteServiceImpl implements UtenteService {
+public class UtenteServiceImpl{
 
     @Autowired
     UtenteRepository utenteRepository;
 
-
+/*
     @Override
     public String getCredenziali(String username, String password) {
         return null;
@@ -41,5 +40,5 @@ public class UtenteServiceImpl implements UtenteService {
                 return -1;
         }
     }
-
+*/
 }

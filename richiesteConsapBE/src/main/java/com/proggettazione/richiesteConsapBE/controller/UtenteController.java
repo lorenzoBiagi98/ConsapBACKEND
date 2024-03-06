@@ -14,7 +14,7 @@ import java.util.List;
 public class UtenteController {
     @Autowired
     UtenteServiceImpl utenteServiceImpl;
-
+/*
     @GetMapping
     List<Utente> getAllUtenti(){
         return utenteServiceImpl.getUtenti();
@@ -25,4 +25,6 @@ public class UtenteController {
         return new ResponseEntity<Utente>(utenteServiceImpl.saveUtente(utente), HttpStatus.OK);
 
     }
+    */
+
 }

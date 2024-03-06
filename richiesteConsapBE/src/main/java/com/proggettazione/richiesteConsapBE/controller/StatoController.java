@@ -1,6 +1,6 @@
 package com.proggettazione.richiesteConsapBE.controller;
 
-import com.proggettazione.richiesteConsapBE.model.Stato;
+import com.proggettazione.richiesteConsapBE.model.StatoRichiestaCONSAP;
 import com.proggettazione.richiesteConsapBE.service.impl.StatoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +15,17 @@ public class StatoController {
 
     @Autowired
     StatoServiceImpl statoServiceImpl;
+    /*
 
     @GetMapping
-    List<Stato> getAllStati(){
+    List<StatoRichiestaCONSAP> getAllStati(){
         return statoServiceImpl.getStati();
     }
 
     @PostMapping
-    ResponseEntity<Stato> saveStato(@RequestBody Stato stato){
-        return new ResponseEntity<Stato>(statoServiceImpl.saveStato(stato), HttpStatus.OK);
+    ResponseEntity<StatoRichiestaCONSAP> saveStato(@RequestBody StatoRichiestaCONSAP statoRichiestaCONSAP){
+        return new ResponseEntity<StatoRichiestaCONSAP>(statoServiceImpl.saveStato(statoRichiestaCONSAP), HttpStatus.OK);
     }
+
+     */
 }

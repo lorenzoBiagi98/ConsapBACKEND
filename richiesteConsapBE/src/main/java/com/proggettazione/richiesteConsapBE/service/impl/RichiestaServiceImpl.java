@@ -1,9 +1,8 @@
 package com.proggettazione.richiesteConsapBE.service.impl;
 
-import com.proggettazione.richiesteConsapBE.dto.richiesteDto;
+
 import com.proggettazione.richiesteConsapBE.model.Richiesta;
-import com.proggettazione.richiesteConsapBE.model.Stato;
-import com.proggettazione.richiesteConsapBE.model.StatoApprovazione;
+import com.proggettazione.richiesteConsapBE.model.StatoRichiestaCONSAP;
 import com.proggettazione.richiesteConsapBE.repository.RichiestaRepository;
 import com.proggettazione.richiesteConsapBE.repository.StatoRepository;
 import com.proggettazione.richiesteConsapBE.service.RichiestaService;
@@ -11,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 @Service
-public class RichiestaServiceImpl implements RichiestaService {
+public class RichiestaServiceImpl {
 
     @Autowired
     RichiestaRepository richiestaRepository;
@@ -28,16 +26,16 @@ public class RichiestaServiceImpl implements RichiestaService {
 
     @Autowired
     UtenteServiceImpl utenteServiceImpl;
-
+/*
     @Override
 
     public Richiesta saveRichiesta(Richiesta richiesta) {
         Richiesta nuovaRichiesta = new Richiesta(
         );
-        Stato stato = statoRepository.findById(richiesta.getStato().getId())
+        StatoRichiestaCONSAP statoRichiestaCONSAP = statoRepository.findById(richiesta.getStato().getId())
                 .orElse(null);
         nuovaRichiesta.setIdCommessa(richiesta.getIdCommessa());
-        nuovaRichiesta.setStato(stato);
+        nuovaRichiesta.setStato(statoRichiestaCONSAP);
         nuovaRichiesta.setDataCreazione(richiesta.getDataCreazione());
         nuovaRichiesta.setOggetto(richiesta.getOggetto());
         nuovaRichiesta.setStatoApprovazione(richiesta.getStatoApprovazione());
@@ -70,7 +68,7 @@ public class RichiestaServiceImpl implements RichiestaService {
 
         return richiestaRepository.save(newRichesta);
     }
-    */
+
 
     @Override
     public List<Richiesta> getRichieste() {
@@ -101,5 +99,13 @@ public class RichiestaServiceImpl implements RichiestaService {
         richiestaRepository.save(existingRichiesta);
         return existingRichiesta;
     }
+
+    @Override
+    public void deleteRichiesta(int id) {
+        Richiesta richiestaDelete = richiestaRepository.findById(id).orElseThrow(
+                ()->new NoSuchElementException("Richiesta non trovata con ID: " + id));
+        richiestaRepository.deleteById(id);
+    }
+    */
 
 }
