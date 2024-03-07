@@ -49,7 +49,7 @@ public class RichiestaController {
         return new ResponseEntity<Richiesta>(richiestaServiceImpl.putRichiesta(richiesta,id
         ),HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")    //aaaaaa
     public ResponseEntity<Void> deleteRichiesta(@PathVariable int id){
         System.out.println(("id da cancellare: " + id));
         richiestaServiceImpl.deleteRichiesta(id);
