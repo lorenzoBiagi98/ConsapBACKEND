@@ -10,7 +10,7 @@ import java.util.Date;
 public class Utente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUtente;
+    private int utenteId;
     private String username;
     private String password;
 }

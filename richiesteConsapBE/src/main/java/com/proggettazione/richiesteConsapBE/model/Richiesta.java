@@ -1,5 +1,6 @@
 package com.proggettazione.richiesteConsapBE.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,16 +12,18 @@ import java.util.Date;
 public class Richiesta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int richiestaId;
-    private String richiestaTicket;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int richiestaId;//
+    private int richiestaNumeroTicket;//
     private String richiestaOggetto;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date richiestaDataInserimento;
-    private Date richiestaStimaDataFine;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date richiestaDataStimaFine;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date richiestaDataModifica;
     private String richiestaUtenteInserimento;
-    @Column(name = "\"richiestaUtenteModifica\"")
-    private String richiestautentemodifica;
+    private String richiestaUtenteModifica;
     private BigDecimal importo;
     @ManyToOne
     @JoinColumn(name="richiestaApplicativoId", referencedColumnName="applicativoId")
@@ -41,9 +44,9 @@ public class Richiesta {
     referencedColumnName = "statoRichiestaOSId")
     private StatoRichiestaOS statoRichiestaOS;
     @ManyToOne
-    @JoinColumn(name="richiestaCodiceCommessaId",
-    referencedColumnName = "codiceCommessaId")
-    CodiceCommessa codiceCommessa;
+    @JoinColumn(name="richiestaCommessaOSId",
+    referencedColumnName = "CommessaOSId")
+    CommessaOS commessaOS;
 
 
 }

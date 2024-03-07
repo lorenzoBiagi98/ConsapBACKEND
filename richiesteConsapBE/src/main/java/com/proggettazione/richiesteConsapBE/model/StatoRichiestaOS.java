@@ -1,5 +1,6 @@
 package com.proggettazione.richiesteConsapBE.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,8 @@ public class StatoRichiestaOS {
     private String statoRichiestaOSDescrizione;
     private String statoRichiestaOSUtenteInserimento;
     private String statoRichiestaOSUtenteModifica;
-    private Date statoRichiestaOSDataInseriento;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date statoRichiestaOSDataInserimento;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date   statoRichiestaOSDataModifica;
 }

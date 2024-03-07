@@ -11,16 +11,16 @@ import java.util.Date;
 
 @Data
 @Entity
-public class StatoApprovazioneOS {
+public class CommessaOS {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int statoApprovazioneOSId;
-    private String statoApprovazioneOSDescrizione;
-    private String statoApprovazioneOSUtenteInserimento;
-    private String statoApprovazioneOSUtenteModifica;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int CommessaOSId;
+    private String CommessaOSCodiceCommessa;
+    private String CommessaOSDescrizione;
+    private String CommessaOSUtenteInserimento;
+    private String  CommessaOSUtenteModifica;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date statoApprovazioneOSDataInserimento;
+    private Date CommessaOSDataInserimento;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private Date   statoApprovazioneOSDataModifica;
-
+    private Date   CommessaOSDataModifica;
 }

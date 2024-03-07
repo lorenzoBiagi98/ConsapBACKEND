@@ -1,7 +1,7 @@
 package com.proggettazione.richiesteConsapBE.controller;
 
 import com.proggettazione.richiesteConsapBE.model.Utente;
-import com.proggettazione.richiesteConsapBE.service.impl.UtenteServiceImpl;
+import com.proggettazione.richiesteConsapBE.service.impl.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,20 +11,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/utente")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class UtenteController {
     @Autowired
-    UtenteServiceImpl utenteServiceImpl;
-/*
+    UtenteService utenteService;
+
     @GetMapping
     List<Utente> getAllUtenti(){
-        return utenteServiceImpl.getUtenti();
+        return utenteService.getUtenti();
     }
 
     @PostMapping
-    ResponseEntity<Utente> saveUtente(@RequestBody Utente utente){
-        return new ResponseEntity<Utente>(utenteServiceImpl.saveUtente(utente), HttpStatus.OK);
+    public ResponseEntity<Utente> saveUtente(@RequestBody Utente utente){
+        return new ResponseEntity<Utente>(utenteService.saveUtente(utente), HttpStatus.OK);
 
     }
-    */
 
 }
