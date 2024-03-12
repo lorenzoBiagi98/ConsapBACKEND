@@ -16,11 +16,13 @@ public class Richiesta {
     private int richiestaId;//
     private int richiestaNumeroTicket;//
     private String richiestaOggetto;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm")
+    private Date richiestaDataCreazione;
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private Date richiestaDataInserimento;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private Date richiestaDataStimaFine;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private Date richiestaDataModifica;
     private String richiestaUtenteInserimento;
     private String richiestaUtenteModifica;

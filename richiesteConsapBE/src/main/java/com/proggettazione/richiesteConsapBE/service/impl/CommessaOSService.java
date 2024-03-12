@@ -62,7 +62,7 @@ public class CommessaOSService implements ICommessaOSService {
         commessaOSModifica.setCommessaOSDescrizione(commessaOS.getCommessaOSDescrizione());
         commessaOSModifica.setCommessaOSUtenteInserimento(commessaOS.getCommessaOSUtenteInserimento());
         commessaOSModifica.setCommessaOSUtenteModifica(commessaOS.getCommessaOSUtenteModifica());
-        commessaOSModifica.setCommessaOSDataInserimento(now);
+        //commessaOSModifica.setCommessaOSDataInserimento(now);
         commessaOSModifica.setCommessaOSDataModifica(now);
 
         commessaOSRepository.save(commessaOSModifica);

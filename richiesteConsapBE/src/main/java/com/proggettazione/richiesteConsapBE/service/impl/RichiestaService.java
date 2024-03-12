@@ -37,23 +37,71 @@ public class RichiestaService implements IRichiestaService {
 
     @Override
     public Richiesta saveRichiesta(Richiesta richiesta) {
+
         Richiesta nuovaRichiesta = new Richiesta();
-        nuovaRichiesta.setRichiestaNumeroTicket(richiesta.getRichiestaNumeroTicket());
-        nuovaRichiesta.setRichiestaOggetto(richiesta.getRichiestaOggetto());
+        try{
+            nuovaRichiesta.setRichiestaNumeroTicket(richiesta.getRichiestaNumeroTicket());
+        }catch (Exception err){
+            System.err.println("Valore non valido per il NUMERO TICKET!");
+        }
+        try{
+            nuovaRichiesta.setRichiestaOggetto(richiesta.getRichiestaOggetto());
+        }catch (Exception err){
+            System.err.println("Valore non valido per l' OGGETTO!");
+        }
+        nuovaRichiesta.setRichiestaDataCreazione(richiesta.getRichiestaDataCreazione());
         nuovaRichiesta.setRichiestaDataInserimento(now);
         nuovaRichiesta.setRichiestaDataStimaFine(richiesta.getRichiestaDataStimaFine());
         nuovaRichiesta.setRichiestaDataModifica(now);
         nuovaRichiesta.setRichiestaUtenteInserimento(richiesta.getRichiestaUtenteInserimento());
         nuovaRichiesta.setRichiestaUtenteModifica(richiesta.getRichiestaUtenteModifica());
-        nuovaRichiesta.setImporto(richiesta.getImporto());
-        nuovaRichiesta.setApplicativo(richiesta.getApplicativo());
-        nuovaRichiesta.setStatoRichiestaCONSAP(richiesta.getStatoRichiestaCONSAP());
-        nuovaRichiesta.setStatoApprovazioneCONSAP(richiesta.getStatoApprovazioneCONSAP());
-        nuovaRichiesta.setStatoApprovazioneOS(richiesta.getStatoApprovazioneOS());
-        nuovaRichiesta.setStatoRichiestaOS(richiesta.getStatoRichiestaOS());
-        nuovaRichiesta.setCommessaOS(richiesta.getCommessaOS());
+        try{
+            nuovaRichiesta.setImporto(richiesta.getImporto());
+        }catch (Exception err){
+            System.err.println("Valore non valido per l' IMPORTO!");
+        }
+        try{
+            nuovaRichiesta.setApplicativo(richiesta.getApplicativo());
+        }catch (Exception err){
+            System.err.println("Questo APPLICATIVO non esiste!");
+        }
 
-        richiestaRepository.save(nuovaRichiesta);
+        try{
+            nuovaRichiesta.setStatoRichiestaCONSAP(richiesta.getStatoRichiestaCONSAP());
+        }catch (Exception err){
+            System.err.println("Questo STATO RICHIESTA CONSAP non esiste!");
+        }
+
+        try{
+            nuovaRichiesta.setStatoApprovazioneCONSAP(richiesta.getStatoApprovazioneCONSAP());
+        }catch (Exception err){
+            System.err.println("Questo STATO APPROVAZIONE CONSAP non esiste!");
+        }
+
+        try{
+            nuovaRichiesta.setStatoApprovazioneOS(richiesta.getStatoApprovazioneOS());
+        }catch (Exception err){
+            System.err.println("Questo STATO APPROVAZIONE OS non esiste!");
+        }
+
+        try{
+            nuovaRichiesta.setStatoRichiestaOS(richiesta.getStatoRichiestaOS());
+        }catch (Exception err){
+            System.err.println("Questo STATO RICHIESTA OS non esiste!");
+        }
+
+        try{
+            nuovaRichiesta.setCommessaOS(richiesta.getCommessaOS());
+        }catch(Exception err){
+            System.err.println("Questa COMMESSA OS non esiste!");
+        }
+
+        try{
+            richiestaRepository.save(nuovaRichiesta);
+        }catch (Exception err){
+            System.err.println("Non è stato possibile salvare la RICHIESTA nel db, forse manca" +
+                    " qualcosa!");
+        }
 
         return nuovaRichiesta;
     }
@@ -73,9 +121,10 @@ public class RichiestaService implements IRichiestaService {
     public Richiesta putRichiesta(Richiesta richiesta, int id) {
         Richiesta richiestaEsistente = richiestaRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Richiesta con ID: " + id + " non trovata!!!"));
-        richiestaEsistente.setRichiestaNumeroTicket(richiesta.getRichiestaNumeroTicket());
-        richiestaEsistente.setRichiestaOggetto(richiesta.getRichiestaOggetto());
-        richiestaEsistente.setRichiestaDataInserimento(now);
+        //richiestaEsistente.setRichiestaNumeroTicket(richiesta.getRichiestaNumeroTicket());
+        //richiestaEsistente.setRichiestaOggetto(richiesta.getRichiestaOggetto());
+        //richiestaEsistente.setRichiestaDataInserimento(now);
+        //richiestaEsistente.setRichiestaDataCreazione(now);
         richiestaEsistente.setRichiestaDataStimaFine(richiesta.getRichiestaDataStimaFine());
         richiestaEsistente.setRichiestaDataModifica(now);
         richiestaEsistente.setRichiestaUtenteInserimento(richiesta.getRichiestaUtenteInserimento());
@@ -102,7 +151,7 @@ public class RichiestaService implements IRichiestaService {
     }
 
     @Override
-    public Richiesta getRichiestaByNumeroTicket(int numeroTicket) {
+    public List<Richiesta> getRichiestaByNumeroTicket(int numeroTicket) {
         return richiestaRepository.getRichiestaByNumeroTicket(numeroTicket).orElseThrow(
                 () -> new NoSuchElementException(("Ticket numero: " + numeroTicket + " inesistente!!!"))
         );
@@ -119,4 +168,35 @@ public class RichiestaService implements IRichiestaService {
         return richiestaRepository.getRichiestaByIdApplicativo(idApplicativo).orElseThrow(
                 ()-> new NoSuchElementException(("Applicativo numero: " + idApplicativo + " non trovato")));
     }
+
+    @Override
+    public List<Richiesta> getRichiestaByFiltro(Integer valoreApplicativo, Integer valoreCommessa, Integer valoreTicket) {
+        return richiestaRepository.getRichiestaByApplicativoCommessaTIcket(
+                valoreApplicativo,valoreCommessa,valoreTicket).orElseThrow(
+                        ()->new NoSuchElementException(("Richiesta non trovata"))
+        );
+    }
+
+    @Override
+    public List<Richiesta> getRichiestaByApplicativoTicket(Integer valoreApplicativo, Integer valoreTicket) {
+        return richiestaRepository.getRichiestaByApplicativoTicket(valoreApplicativo, valoreTicket)
+                .orElseThrow(()-> new NoSuchElementException("Richiesta non trovata"));
+    }
+
+    @Override
+    public List<Richiesta> getRichiesteByApplicativoCommessa(Integer valoreApplicativo, Integer valoreCommessa) {
+        return richiestaRepository.getRichiesteApplicativoCommessa(valoreApplicativo, valoreCommessa)
+                .orElseThrow(
+                        ()->new NoSuchElementException("Richiesta non trovata"));
+    }
+
+    /*
+    @Override
+    public List<Richiesta> getRichiestaByCommessaTicket(Integer idTicket, Integer valoreCommessa) {
+        return richiestaRepository.getRichiestaByCommessaTicket(idTicket, valoreCommessa)
+                .orElseThrow(
+                ()->new NoSuchElementException("Richiesta non trovata"));
+    }
+*/
+
 }
