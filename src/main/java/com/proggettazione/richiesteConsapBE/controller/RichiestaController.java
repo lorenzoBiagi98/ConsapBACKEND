@@ -1,8 +1,10 @@
 package com.proggettazione.richiesteConsapBE.controller;
 
 import com.proggettazione.richiesteConsapBE.model.Richiesta;
+import com.proggettazione.richiesteConsapBE.repository.RichiestaRepository;
 import com.proggettazione.richiesteConsapBE.service.impl.RichiestaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,9 @@ public class RichiestaController {
 
     @Autowired
     RichiestaService richiestaServiceImpl;
+
+    @Autowired
+    RichiestaRepository richiestaRepository;
 
     @GetMapping("/richieste")
     @CrossOrigin(origins="http://localhost:4200", allowedHeaders = "*")
@@ -89,12 +94,67 @@ public class RichiestaController {
         return richiestaServiceImpl.getRichiesteByIdApplicativo(idApplicativo);
     }
 
+    @GetMapping("/richieste/filtri")
+    public ResponseEntity<List<Richiesta>> ricercaRichieste(
+            @RequestParam(required = false) Integer numeroTicket,
+            @RequestParam(required = false) String applicativo,
+            @RequestParam(required = false) String oggetto,
+            @RequestParam(required = false) Long statoRichiestaCONSAPId,
+            @RequestParam(required = false) Long statoApprovazioneCONSAPId,
+            @RequestParam(required = false) Long statoRichiestaOSId,
+            @RequestParam(required = false) Long statoApprovazioneOSId) {
+
+        // Verifica dei parametri e costruzione della query
+        Specification<Richiesta> spec = Specification.where(null);
+
+        if (numeroTicket != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("numeroTicket"), numeroTicket));
+        }
+
+        if (applicativo != null && !applicativo.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("applicativo"), "%" + applicativo + "%"));
+        }
+
+        if (oggetto != null && !oggetto.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("oggetto"), "%" + oggetto + "%"));
+        }
+
+        if (statoRichiestaCONSAPId != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("statoRichiestaCONSAPId"), statoRichiestaCONSAPId));
+        }
+
+        if (statoApprovazioneCONSAPId != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("statoApprovazioneCONSAPId"), statoApprovazioneCONSAPId));
+        }
+
+        if (statoRichiestaOSId != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("statoRichiestaOSId"), statoRichiestaOSId));
+        }
+
+        if (statoApprovazioneOSId != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("statoApprovazioneOSId"), statoApprovazioneOSId));
+        }
+
+        // Esecuzione della query usando il repository
+        List<Richiesta> risultati = richiestaRepository.findAll(spec);
+
+        return ResponseEntity.ok(risultati);
+    }
+
+
 
     @PostMapping
     public ResponseEntity<Richiesta> saveRichiesta(@RequestBody Richiesta richiesta){
         return  new ResponseEntity<Richiesta>(richiestaServiceImpl.saveRichiesta(richiesta), HttpStatus.OK);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/put/{id}")
     public ResponseEntity<Richiesta> putRichiesta(@PathVariable int id,
                                                   @RequestBody Richiesta richiesta){
         //int statoId = richiesta.getStato().getId();
@@ -102,7 +162,8 @@ public class RichiestaController {
         return new ResponseEntity<Richiesta>(richiestaServiceImpl.putRichiesta(id,richiesta
         ),HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")    //aaaaaa
+    @DeleteMapping("/   delete/{id}")
+    @CrossOrigin(origins="http://localhost:4200", allowedHeaders = "*")//aaaaaa
     public ResponseEntity<Void> deleteRichiesta(@PathVariable int id){
         System.out.println(("id da cancellare: " + id));
         richiestaServiceImpl.deleteRichiesta(id);

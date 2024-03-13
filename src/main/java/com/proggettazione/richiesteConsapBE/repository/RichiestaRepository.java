@@ -3,6 +3,7 @@ package com.proggettazione.richiesteConsapBE.repository;
 import com.proggettazione.richiesteConsapBE.model.Richiesta;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RichiestaRepository extends JpaRepository<Richiesta,Integer> {
+public interface RichiestaRepository extends JpaRepository<Richiesta,Integer>, JpaSpecificationExecutor<Richiesta> {
 
     @Query(value="SELECT * FROM richiesta WHERE richiestaNumeroTicket = :numeroTicket", nativeQuery = true)
     Optional<List<Richiesta>> getRichiestaByNumeroTicket(@Param("numeroTicket") int numeroTicket);

@@ -1,6 +1,7 @@
 package com.proggettazione.richiesteConsapBE.service.impl;
 
 
+import com.proggettazione.richiesteConsapBE.criteria.RichiestaSpecifications;
 import com.proggettazione.richiesteConsapBE.model.Richiesta;
 import com.proggettazione.richiesteConsapBE.repository.CommessaOSRepository;
 import com.proggettazione.richiesteConsapBE.repository.RichiestaRepository;
@@ -8,6 +9,7 @@ import com.proggettazione.richiesteConsapBE.repository.StatoRichiestaCONSAPRepos
 import com.proggettazione.richiesteConsapBE.service.IRichiestaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,26 @@ public class RichiestaService implements IRichiestaService {
     public RichiestaService() throws ParseException {
     }
 
+    public List<Richiesta> findRichiesteWithFilters(
+            String numeroTicket,
+            String applicativo,
+            String oggetto,
+            String statoRichiestaCONSAP,
+            String statoApprovazioneCONSAP,
+            String statoRichiestaOS,
+            String statoApprovazioneOS
+    ) {
+        Specification<Richiesta> spec = RichiestaSpecifications.withFilters(
+                numeroTicket,
+                applicativo,
+                oggetto,
+                statoRichiestaCONSAP,
+                statoApprovazioneCONSAP,
+                statoRichiestaOS,
+                statoApprovazioneOS
+        );
+        return richiestaRepository.findAll(spec);
+    }
 
     @Override
     public Richiesta saveRichiesta(Richiesta richiesta) {
@@ -154,8 +176,12 @@ public class RichiestaService implements IRichiestaService {
     public void deleteRichiesta(int id) {
         Richiesta richiestaElimina = richiestaRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Richiesta con ID: " + id + " non trovata!!!"));
-
+    if(richiestaElimina != null) {
         richiestaRepository.deleteById(id);
+    }else{
+        throw new EntityNotFoundException(String.format("Richiesta con id %d non trovata",id));
+    }
+
     }
 
     @Override
