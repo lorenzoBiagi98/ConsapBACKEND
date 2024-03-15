@@ -162,7 +162,7 @@ public class RichiestaController {
         return new ResponseEntity<Richiesta>(richiestaServiceImpl.putRichiesta(id,richiesta
         ),HttpStatus.OK);
     }
-    @DeleteMapping("/   delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @CrossOrigin(origins="http://localhost:4200", allowedHeaders = "*")//aaaaaa
     public ResponseEntity<Void> deleteRichiesta(@PathVariable int id){
         System.out.println(("id da cancellare: " + id));

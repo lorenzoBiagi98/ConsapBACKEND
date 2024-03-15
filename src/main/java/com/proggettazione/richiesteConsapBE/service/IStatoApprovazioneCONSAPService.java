@@ -8,4 +8,5 @@ public interface IStatoApprovazioneCONSAPService {
 
     List<StatoApprovazioneCONSAP> getStatiApprovazioneConsap();
     StatoApprovazioneCONSAP saveStatoApprovazioneCONSAP(StatoApprovazioneCONSAP statoApprovazioneCONSAP);
+
 }

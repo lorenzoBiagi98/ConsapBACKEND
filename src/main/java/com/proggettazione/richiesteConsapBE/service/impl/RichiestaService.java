@@ -1,7 +1,7 @@
 package com.proggettazione.richiesteConsapBE.service.impl;
 
 
-import com.proggettazione.richiesteConsapBE.criteria.RichiestaSpecifications;
+
 import com.proggettazione.richiesteConsapBE.model.Richiesta;
 import com.proggettazione.richiesteConsapBE.repository.CommessaOSRepository;
 import com.proggettazione.richiesteConsapBE.repository.RichiestaRepository;
@@ -37,26 +37,7 @@ public class RichiestaService implements IRichiestaService {
     public RichiestaService() throws ParseException {
     }
 
-    public List<Richiesta> findRichiesteWithFilters(
-            String numeroTicket,
-            String applicativo,
-            String oggetto,
-            String statoRichiestaCONSAP,
-            String statoApprovazioneCONSAP,
-            String statoRichiestaOS,
-            String statoApprovazioneOS
-    ) {
-        Specification<Richiesta> spec = RichiestaSpecifications.withFilters(
-                numeroTicket,
-                applicativo,
-                oggetto,
-                statoRichiestaCONSAP,
-                statoApprovazioneCONSAP,
-                statoRichiestaOS,
-                statoApprovazioneOS
-        );
-        return richiestaRepository.findAll(spec);
-    }
+
 
     @Override
     public Richiesta saveRichiesta(Richiesta richiesta) {
