@@ -33,15 +33,20 @@ public class SecurityConfiguration {
     @Bean
     CommandLineRunner run(UserService userService, RoleService roleService) {
         return args -> {
-            roleService.save(new RoleEntity(null, "ROLE_USER"));
+            /*
+
+           roleService.save(new RoleEntity(null, "ROLE_USER"));
             roleService.save(new RoleEntity(null, "ROLE_ADMIN"));
 
             userService.save(new UserEntity(null, "rossi", "1234", new ArrayList<>()));
             userService.save(new UserEntity(null, "bianchi", "1234", new ArrayList<>()));
 
-            userService.addRoleToUser("rossi", "ROLE_USER");
+           userService.addRoleToUser("rossi", "ROLE_USER");
             userService.addRoleToUser("bianchi", "ROLE_ADMIN");
             userService.addRoleToUser("bianchi", "ROLE_USER");
+
+*/
+
         };
     }
 
@@ -53,19 +58,21 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
-                        .requestMatchers("/registrazione/**").permitAll()
-                        .requestMatchers("/v3/**", "/configuration/**", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilter(new CustomAuthenticationFilter(authenticationManager))
-                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .headers(headers -> headers.cacheControl(cacheControl -> cacheControl.disable()));
+            http
+                    .csrf(csrf -> csrf.disable())
+                    .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .authorizeHttpRequests((auth) -> auth
+                            .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
+                            .requestMatchers("/registrazione/**").permitAll()
+                            .requestMatchers("/v3/**", "/configuration/**", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**", "/api/**").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/addRoleToUser").hasAuthority("ROLE_ADMIN")
+                            .anyRequest().authenticated()
 
-        return http.build();
+                    )
+                    .addFilter(new CustomAuthenticationFilter(authenticationManager))
+                    .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .headers(headers -> headers.cacheControl(cacheControl -> cacheControl.disable()));
+
+            return http.build();
     }
 }

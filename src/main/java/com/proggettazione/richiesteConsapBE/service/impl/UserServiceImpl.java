@@ -11,7 +11,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,7 +34,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
-
 
         private static final String USER_NOT_FOUND_MESSAGE = "User with username %s not found";
 
@@ -53,9 +57,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.info("Adding role {} to user {}", roleName, username);
             UserEntity userEntity = userJpaRepository.findByUsername(username);
             RoleEntity roleEntity = roleJpaRepository.findByName(roleName);
-            userEntity.getRoles().add(roleEntity);
-            return userEntity;
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                userEntity.getRoles().add(roleEntity);
+            }else{
+                throw  new AuthorizationServiceException("Non hai i permessi!");
+            }
 
+            return userEntity;
 
     }
 
